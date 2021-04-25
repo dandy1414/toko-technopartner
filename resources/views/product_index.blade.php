@@ -47,12 +47,9 @@
                                     @endforeach
                                 </td>
                                 <td>
-                                    <form action="{{ route('product.edit', $product->id) }}" method="GET" class="d-inline">
-                                        @csrf
-                                        <button class="btn-danger btn-sm">
-                                            <i class="fa fa-trash"></i>
-                                        </button>
-                                    </form>
+                                    <a href="{{ route('product.edit', $product->id) }}" class="btn btn-primary btn-sm">
+                                        Edit
+                                    </a>
                                 </td>
                             </tr>
                             @empty

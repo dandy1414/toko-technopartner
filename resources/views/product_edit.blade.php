@@ -11,8 +11,9 @@
         <div class="card-body">
             <div class="row">
                 <div class="col-md-12 mt-2">
-                    <form action="{{ route('store') }}" method="Post">
+                    <form action="{{ route('product.edit', $product->id) }}" method="Post">
                         @csrf
+                        @method('PUT')
                         <div class="form-group {{ $errors->first('name') ? "has-error": "" }}">
                             <label for="name">Nama produk :</label>
                             <input type="text" class="form-control" placeholder="Nama.." value="{{ $product->name }}">
@@ -65,7 +66,7 @@
                             <select class="form-control" id="variant">
                                 <option selected disabled>Silahkan pilih salah satu</option>
                                 @foreach ($variants as $variant)
-                                <option value="{{ $variant->id }}" {{ $product->variant->id == $variant->id ? "selected" : "" }}>
+                                <option value="{{ $variant->id }}" {{ old('variant') == $variant->id ? "selected" : "" }}>
                                     {{ $variant->size }} - {{ $variant->price }}</option>
                                 @endforeach
                             </select>

@@ -53,11 +53,25 @@ class ProductController extends Controller
         $categories = Category::all();
         $variants = Variant::all();
 
-        return view('product_create', [
+        return view('product_edit', [
             'product' => $product,
             'categories' => $categories,
             'variants' => $variants
         ]);
+    }
+
+    public function update(Request $request, $id)
+    {
+        $product = Product::findOrFail($id);
+        $product->name = $request->name;
+        $product->category_id = $request->categories_id;
+        $product->colors = \json_encode($request->colors);
+        $product->description = $request->description;
+        $product->save();
+
+        $product->variant()->attach($request->variant);
+
+        return redirect()->route('index');
     }
 
     public function store(ProductRequest $request)
@@ -73,6 +87,16 @@ class ProductController extends Controller
         $products->variant()->attach($request->variant);
 
         return redirect()->route('index');
+    }
+
+    public function destroy($id)
+    {
+        $product = Product::findOrFail($id);
+        $product->delete();
+
+        ProductImage::where('product_id', $id)->delete();
+
+        return redirect()->route('product.index');
     }
 
     public function imageStore(ImageRequest $request)
