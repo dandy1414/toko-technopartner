@@ -11,8 +11,8 @@ class Variant extends Model
         'size', 'price'
     ];
 
-    public function products()
+    public function product()
     {
-        return belongsToMany(Product::class);
+        return $this->belongsToMany(Product::class);
     }
 }

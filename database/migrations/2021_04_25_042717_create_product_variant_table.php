@@ -14,18 +14,18 @@ class CreateProductVariantTable extends Migration
     public function up()
     {
         Schema::create('product_variant', function (Blueprint $table) {
-            $table->foreignId('products_id');
-            $table->foreignId('variants_id');
-            $table->primary(['products_id','variants_id']);
+            $table->foreignId('product_id');
+            $table->foreignId('variant_id');
+            $table->primary(['product_id','variant_id']);
             $table->timestamps();
 
-            $table->foreign('products_id')
+            $table->foreign('product_id')
             ->references('id')
             ->on('products')
             ->onDelete('cascade')
             ->onUpdate('cascade');
 
-            $table->foreign('variants_id')
+            $table->foreign('variant_id')
             ->references('id')
             ->on('variants')
             ->onDelete('cascade')

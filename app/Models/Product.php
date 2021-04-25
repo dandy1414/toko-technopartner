@@ -9,21 +9,21 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Product extends Model
 {
     protected $fillable = [
-        'name', 'colors', 'description',
+        'category_id', 'name', 'colors', 'description',
     ];
 
     public function category()
     {
-        return belongsTo(Category::class);
+        return $this->belongsTo(Category::class);
     }
 
     public function productImages()
     {
-        return hasMany(ProductImage::class);
+        return $this->hasMany(ProductImage::class);
     }
 
-    public function variants()
+    public function variant()
     {
-        return hasMany(Variant::class);
+        return $this->belongsToMany(Variant::class);
     }
 }
