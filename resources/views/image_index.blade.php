@@ -17,8 +17,8 @@
             </div>
             <div class="row">
                 <div class="col-md-12 mt-2">
-                    <table class="table">
-                        <thead class="thead-dark">
+                    <table class="table table-striped">
+                        <thead class="thead thead-dark">
                             <tr>
                                 <th scope="col">No</th>
                                 <th scope="col">Nama Produk</th>

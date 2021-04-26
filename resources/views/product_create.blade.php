@@ -11,7 +11,7 @@
         <div class="card-body">
             <div class="row">
                 <div class="col-md-12 mt-2">
-                    <form action="{{ route('store') }}" method="Post">
+                    <form action="{{ route('product.store') }}" method="Post">
                         @csrf
                         <div class="form-group {{ $errors->first('name') ? "has-error": "" }}">
                             <label for="name">Nama produk :</label>
@@ -36,41 +36,43 @@
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" value="Merah" name="colors[]">
                                 <label class="form-check-label">
-                                  Merah
+                                    Merah
                                 </label>
-                              </div>
-                              <div class="form-check">
+                            </div>
+                            <div class="form-check">
                                 <input class="form-check-input" type="checkbox" value="Biru" name="colors[]">
                                 <label class="form-check-label">
                                     Biru
                                 </label>
-                              </div>
-                              <div class="form-check">
+                            </div>
+                            <div class="form-check">
                                 <input class="form-check-input" type="checkbox" value="Hitam" name="colors[]">
                                 <label class="form-check-label">
                                     Hitam
                                 </label>
-                              </div>
-                              <div class="form-check">
+                            </div>
+                            <div class="form-check">
                                 <input class="form-check-input" type="checkbox" value="Abu-abu" name="colors[]">
                                 <label class="form-check-label">
                                     Abu-abu
                                 </label>
-                              </div>
-                              <span class="help-block">{{ $errors->first('color') }}</span>
+                            </div>
+                            <span class="help-block">{{ $errors->first('color') }}</span>
                         </div>
 
                         <div class="form-group {{ $errors->first('variant') ? "has-error": "" }}">
-                            <label for="variant">Varian : </label>
-                            <select class="form-control" id="variant" name="variant">
-                                <option selected disabled>Silahkan pilih salah satu</option>
-                                @foreach ($variants as $variant)
-                                <option value="{{ $variant->id }}" {{ old('variant') == $variant->id ? "selected" : "" }}>
-                                    {{ $variant->size }} - {{ $variant->price }}</option>
-                                @endforeach
-                            </select>
-                            <span class="help-block">{{ $errors->first('variant') }}</span>
+                            <label>Harga : </label>
+                            @foreach ($variants as $variant)
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="{{ $variant->id }}" name="variant[]">
+                                <label class="form-check-label">
+                                    {{ $variant->size }} - @currency($variant->price)
+                                </label>
+                            </div>
+                            @endforeach
+                            <span class="help-block">{{ $errors->first('color') }}</span>
                         </div>
+
                         <div class="form-group">
                             <label for="description">Deskripsi : </label>
                             <textarea class="form-control" id="description" rows="3" name="description"></textarea>
