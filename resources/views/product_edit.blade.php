@@ -11,18 +11,18 @@
         <div class="card-body">
             <div class="row">
                 <div class="col-md-12 mt-2">
-                    <form action="{{ route('product.edit', $product->id) }}" method="Post">
+                    <form action="{{ route('product.update', $product->id) }}" method="Post">
                         @csrf
                         @method('PUT')
                         <div class="form-group {{ $errors->first('name') ? "has-error": "" }}">
                             <label for="name">Nama produk :</label>
-                            <input type="text" class="form-control" placeholder="Nama.." value="{{ $product->name }}">
+                            <input type="text" class="form-control" placeholder="Nama.." value="{{ $product->name }}" name="name">
                             <span class="help-block">{{ $errors->first('name') }}</span>
                         </div>
 
-                        <div class="form-group {{ $errors->first('category') ? "has-error": "" }}">
+                        <div class="form-group {{ $errors->first('categories_id') ? "has-error": "" }}">
                             <label for="category">Kategori</label>
-                            <select class="form-control" id="categories">
+                            <select class="form-control" id="categories_id" name="categories_id">
                                 <option selected disabled>Silahkan pilih salah satu</option>
                                 @foreach ($categories as $cat)
                                 <option value="{{ $cat->id }}" {{ $product->id == $cat->id ? "selected" : "" }}>
@@ -32,46 +32,48 @@
                             <span class="help-block">{{ $errors->first('name') }}</span>
                         </div>
 
-                        <div class="form-group {{ $errors->first('color') ? "has-error": "" }}">
+                        <div class="form-group {{ $errors->first('colors') ? "has-error": "" }}">
                             <label>Warna : </label>
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="Merah" name="color[]">
+                                <input class="form-check-input" type="checkbox" value="Merah" name="colors[]">
                                 <label class="form-check-label">
                                   Merah
                                 </label>
                               </div>
                               <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="Biru" name="color[]">
+                                <input class="form-check-input" type="checkbox" value="Biru" name="colors[]">
                                 <label class="form-check-label">
                                     Biru
                                 </label>
                               </div>
                               <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="Hitam" name="color[]">
+                                <input class="form-check-input" type="checkbox" value="Hitam" name="colors[]">
                                 <label class="form-check-label">
                                     Hitam
                                 </label>
                               </div>
                               <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="Abu-abu" name="color[]">
+                                <input class="form-check-input" type="checkbox" value="Abu-abu" name="colors[]">
                                 <label class="form-check-label">
                                     Abu-abu
                                 </label>
                               </div>
-                              <span class="help-block">{{ $errors->first('color') }}</span>
+                              <span class="help-block">{{ $errors->first('colors') }}</span>
                         </div>
 
                         <div class="form-group {{ $errors->first('variant') ? "has-error": "" }}">
-                            <label for="category">Varian : </label>
-                            <select class="form-control" id="variant">
-                                <option selected disabled>Silahkan pilih salah satu</option>
-                                @foreach ($variants as $variant)
-                                <option value="{{ $variant->id }}" {{ old('variant') == $variant->id ? "selected" : "" }}>
-                                    {{ $variant->size }} - {{ $variant->price }}</option>
-                                @endforeach
-                            </select>
-                            <span class="help-block">{{ $errors->first('variant') }}</span>
+                            <label>Varian : </label>
+                            @foreach ($variants as $variant)
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="{{ $variant->id }}" name="variant[]">
+                                <label class="form-check-label">
+                                    {{ $variant->size }} - @currency($variant->price)
+                                </label>
+                            </div>
+                            @endforeach
+                            <span class="help-block">{{ $errors->first('color') }}</span>
                         </div>
+
                         <div class="form-group">
                             <label for="description">Deskripsi : </label>
                             <textarea class="form-control" id="description" rows="3" name="description"></textarea>

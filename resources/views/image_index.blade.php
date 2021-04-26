@@ -20,29 +20,29 @@
                     <table class="table table-striped">
                         <thead class="thead thead-dark">
                             <tr>
-                                <th scope="col">No</th>
-                                <th scope="col">Nama Produk</th>
-                                <th scope="col">Gambar</th>
+                                <th scope="col" style="text-align: center">No</th>
+                                <th scope="col" style="text-align: center">Nama Produk</th>
+                                <th scope="col" style="text-align: center">Kategori</th>
+                                <th scope="col" style="text-align: center">Gambar</th>
                             </tr>
                         </thead>
                         <tbody>
+                            @forelse ($images as $image)
                             <tr>
-                                @forelse ($images as $image)
-                                <th scope="row"> 1</th>
-                                <td>
-                                    {{ $image->product->name }}
+                                <th scope="row" style="text-align: center">{{ $loop->iteration }}</th>
+                                <td style="text-align: center">{{ $image->product->name }}</td>
+                                <td style="text-align: center">{{ $image->product->category->category }}</td>
+                                <td style="text-align: center">
+                                    <img src="{{ $image->image_link }}" alt="" class="img-thumbnail" style="width: 150px; height: 75px">
                                 </td>
-                                <td>
-                                    <img src="{{ $image->image_link }}" alt="">
-                                </td>
-                                @empty
-                                <tr>
-                                    <td colspan="6" class="text-center p-5">
-                                        Data tidak tersedia
-                                    </td>
-                                </tr>
-                                @endforelse
+                            @empty
                             </tr>
+                            <tr>
+                                <td colspan="6" class="text-center p-5">
+                                    Data tidak tersedia
+                                </td>
+                            </tr>
+                            @endforelse
                         </tbody>
                     </table>
                 </div>

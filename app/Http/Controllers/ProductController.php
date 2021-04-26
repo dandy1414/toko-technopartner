@@ -45,13 +45,14 @@ class ProductController extends Controller
 
     public function store(ProductRequest $request)
     {
-        $products = new Product;
-        $products->name = $request->name;
-        $products->category_id = $request->categories_id;
-        $products->colors = \json_encode($request->colors);
-        $products->description = $request->description;
-        $products->save();
+        $request_colors = \json_encode($request->colors);
 
+        $products = Product::create([
+            'name' => $request->name,
+            'category_id' => $request->categories_id,
+            'colors' => $request_colors,
+            'description' => $request->description
+        ]);
 
         $products->variant()->attach($request->variant);
 
@@ -64,6 +65,8 @@ class ProductController extends Controller
         $categories = Category::all();
         $variants = Variant::all();
 
+        $product->colors = json_decode($product->colors);
+
         return view('product_edit', [
             'product' => $product,
             'categories' => $categories,
@@ -71,26 +74,41 @@ class ProductController extends Controller
         ]);
     }
 
-    public function update(Request $request, $id)
+    public function update(ProductRequest $request, $id)
     {
+        $request_colors = \json_encode($request->colors);
+
+        // $product = Product::findOrfail($id)->update([
+        //     'name' => $request->name,
+        //     'category_id' => $request->categories_id,
+        //     'colors' => $request_colors,
+        //     'description' => $request->description
+        // ])->variant()->sync($request->variant);
+
         $product = Product::findOrFail($id);
+
         $product->name = $request->name;
         $product->category_id = $request->categories_id;
         $product->colors = \json_encode($request->colors);
         $product->description = $request->description;
         $product->save();
 
-        $product->variant()->attach($request->variant);
-
+        $product->variant()->sync($request->variant);
+        
         return redirect()->route('index');
     }
 
     public function destroy($id)
     {
         $product = Product::findOrFail($id);
-        $product->delete();
 
-        ProductImage::where('product_id', $id)->delete();
+        foreach($product as $prod){
+            $variant_ids = $prod->variant->id;
+        }
+
+        $product->variant()->detach($variant_ids);
+        $product->category()->detach($product->category->id);
+        $product = Product::delete($id);
 
         return redirect()->route('product.index');
     }

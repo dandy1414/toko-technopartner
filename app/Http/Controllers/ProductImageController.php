@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\ProductImage;
+use App\Models\Product;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\ImageRequest;
@@ -33,13 +34,12 @@ class ProductImageController extends Controller
         ]);
     }
 
-    public function imageStore(ImageRequest $request)
+    public function store(ImageRequest $request)
     {
-
-        $productImage = new ProductImage;
-        $productImage->product_id = $request->product;
-        $productImage->image_link = $request->image;
-        $productImage->save();
+        ProductImage::create([
+            'product_id' => $request->product,
+            'image_link' => $request->image
+        ]);
 
         return redirect()->route('image.index');
     }

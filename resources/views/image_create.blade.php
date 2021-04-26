@@ -13,22 +13,31 @@
                 <div class="col-md-12 mt-2">
                     <form action="{{ route('image.store') }}" method="Post">
                         @csrf
-                        <div class="form-group {{ $errors->first('product') ? "has-error": "" }}">
+                        <div class="form-group">
                             <label for="product">Pilih Produk : </label>
-                            <select class="form-control" id="product" name="product">
+                            <select class="form-control {{ $errors->first('product') ? "is-invalid": "" }}" id="product" name="product">
                                 <option selected disabled>Silahkan pilih salah satu</option>
                                 @foreach ($products as $product)
                                 <option value="{{ $product->id }}" {{ old('product') == $product->id ? "selected" : "" }}>
                                     {{ $product->name }}</option>
                                 @endforeach
                             </select>
-                            <span class="help-block">{{ $errors->first('product') }}</span>
+                            @if ($errors->first('pakaian'))
+                            <div class="invalid-feedback" style="display: block">
+                                {{ $errors->first('pakaian') }}
+                            </div>
+                            @endif
                         </div>
 
-                        <div class="form-group {{ $errors->first('image') ? "has-error": "" }}">
+                        <div class="form-group">
                             <label for="image">Link Gambar :</label>
-                            <input type="text" class="form-control" placeholder="Link Gambar.." name="image">
+                            <input type="text" class="form-control  {{ $errors->first('image') ? "is-invalid": "" }}" placeholder="Link Gambar.." name="image">
                             <span class="help-block">{{ $errors->first('image') }}</span>
+                            @if ($errors->first('image'))
+                            <div class="invalid-feedback" style="display: block">
+                                {{ $errors->first('image') }}
+                            </div>
+                            @endif
                         </div>
 
                         <input type="submit" value="Simpan" class="btn btn-success">
